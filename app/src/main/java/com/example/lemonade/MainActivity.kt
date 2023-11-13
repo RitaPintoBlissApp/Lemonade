@@ -107,13 +107,13 @@ fun PageStructure(    onImageClick: () -> Unit,modifier: Modifier = Modifier) {
         3 ->
         { TextandImageStructure(
                 imageResource = R.drawable.lemon_drink,
-                descriptionResource = R.string.lemon_glass_text,
+                descriptionResource = R.string.lemon_juice_text,
                 onImageClick = { result = 4})
         }
         4 -> {
         TextandImageStructure(
             imageResource = R.drawable.lemon_restart,
-            descriptionResource = R.string.Empty_glass,
+            descriptionResource = R.string.lemon_glass_text,
             onImageClick = {  result = 1 })
         }
     }
