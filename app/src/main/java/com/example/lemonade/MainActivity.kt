@@ -5,7 +5,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -28,7 +27,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -75,7 +73,7 @@ fun AppLemonade(modifier: Modifier = Modifier){
         Surface (modifier = Modifier
             .background(MaterialTheme.colorScheme.tertiaryContainer),
             color = MaterialTheme.colorScheme.background){
-            DiceWithButtonAndImage({})
+            PageStructure({})
         }
 
     }
@@ -83,123 +81,80 @@ fun AppLemonade(modifier: Modifier = Modifier){
 }
 
 @Composable
-fun DiceWithButtonAndImage(    onImageClick: () -> Unit,modifier: Modifier = Modifier) {
+fun PageStructure(    onImageClick: () -> Unit,modifier: Modifier = Modifier) {
     var result by remember { mutableStateOf(1) }
     var squeezeCount by remember { mutableStateOf(0) }
 
     when (result){
         1-> {
-            Column (
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxSize() //Isso garante que os filhos dentro da coluna fiquem centralizados na tela do dispositivo em relação à largura.
-
-            ){
-                Button(
-                    onClick = onImageClick,
-                    shape = RoundedCornerShape(40.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.tertiaryContainer)
-                ){
-                Image(
-                    painter = painterResource(R.drawable.lemon_tree),
-                    contentDescription = result.toString(),
-                    modifier = Modifier
-                        .wrapContentSize()
-                        .clickable {
-                            result = 2
-                            squeezeCount = (2..4).random()
-                        })}
-
-                Spacer(modifier = Modifier.height(32.dp))
-                Text(text = stringResource(R.string.lemon_tree_text))
-
-            }
+            TextandImageStructure(
+                imageResource = R.drawable.lemon_tree,
+                descriptionResource = R.string.lemon_tree_text,
+                onImageClick = {  result = 2
+                    squeezeCount = (2..4).random() })
         }
         2 -> {
-            Column (
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxSize() //Isso garante que os filhos dentro da coluna fiquem centralizados na tela do dispositivo em relação à largura.
-
-            ){
-                Button(
-                    onClick = onImageClick,
-                    shape = RoundedCornerShape(40.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.tertiaryContainer)
-                ){
-               Image(
-                    painter = painterResource(R.drawable.lemon_squeeze),
-                    contentDescription = result.toString(),
-                    modifier = Modifier
-                        .wrapContentSize()
-                        .clickable {
-                            squeezeCount--
-                            if (squeezeCount == 0) {
-                                result = 3
-                            }
-                        })}
-                Spacer(modifier = Modifier.height(32.dp))
-                Text(text = stringResource(R.string.lemon_text))
-
-            }
+            TextandImageStructure(
+                imageResource = R.drawable.lemon_squeeze,
+                descriptionResource = R.string.lemon_text,
+                onImageClick = {
+                    squeezeCount--
+                    if (squeezeCount == 0) {
+                        result = 3
+                    }
+                })
         }
-        3 ->  {
-            Column (
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxSize() //Isso garante que os filhos dentro da coluna fiquem centralizados na tela do dispositivo em relação à largura.
-
-            ){
-                Button(
-                    onClick = onImageClick,
-                    shape = RoundedCornerShape(40.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.tertiaryContainer)
-                ){
-                Image(
-                    painter = painterResource(R.drawable.lemon_drink),
-                    contentDescription = result.toString(),
-                    modifier = Modifier
-                        .wrapContentSize()
-                        .clickable {
-                            result = 4
-                        })}
-                Spacer(modifier = Modifier.height(32.dp))
-                Text(text = stringResource(R.string.lemon_glass_text))
-
-            }
+        3 ->
+        { TextandImageStructure(
+                imageResource = R.drawable.lemon_drink,
+                descriptionResource = R.string.lemon_glass_text,
+                onImageClick = { result = 4})
         }
         4 -> {
-            Column (
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxSize() //Isso garante que os filhos dentro da coluna fiquem centralizados na tela do dispositivo em relação à largura.
-
-            ){
-                Button(
-                    onClick = onImageClick,
-                    shape = RoundedCornerShape(40.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.tertiaryContainer)
-                ){
-                Image(
-                    painter = painterResource(R.drawable.lemon_restart),
-                    contentDescription = result.toString(),
-                    modifier = Modifier
-                        .wrapContentSize()
-                        .clickable {
-                            result = 1
-                        })}
-                Spacer(modifier = Modifier.height(32.dp))
-                Text(text = stringResource(R.string.Empty_glass))
-
-            }
+        TextandImageStructure(
+            imageResource = R.drawable.lemon_restart,
+            descriptionResource = R.string.Empty_glass,
+            onImageClick = {  result = 1 })
         }
     }
 
 }
+
+@Composable
+fun TextandImageStructure(
+    imageResource : Int,
+    descriptionResource:Int,
+    onImageClick: () -> Unit,
+    modifier: Modifier = Modifier
+
+){
+    Column (
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+        modifier = Modifier.fillMaxSize() //Isso garante que os filhos dentro da coluna fiquem centralizados na tela do dispositivo em relação à largura.
+
+    ){
+        Button(
+            onClick = onImageClick,
+            shape = RoundedCornerShape(40.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.tertiaryContainer)
+        ){
+            Image(
+                painter = painterResource(imageResource),
+                contentDescription = imageResource.toString(),
+                modifier = Modifier
+                    .wrapContentSize()
+                 )}
+        Spacer(modifier = Modifier.height(32.dp))
+        Text(text = stringResource(descriptionResource),style = MaterialTheme.typography.bodyLarge)
+
+    }
+}
+
 @Preview
 @Composable
 fun DiceRollerApp() {
-    DiceWithButtonAndImage({})
+    PageStructure({})
 }
 
 /*
