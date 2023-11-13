@@ -12,7 +12,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -26,6 +28,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -72,7 +75,7 @@ fun AppLemonade(modifier: Modifier = Modifier){
         Surface (modifier = Modifier
             .background(MaterialTheme.colorScheme.tertiaryContainer),
             color = MaterialTheme.colorScheme.background){
-            DiceWithButtonAndImage()
+            DiceWithButtonAndImage({})
         }
 
     }
@@ -80,7 +83,7 @@ fun AppLemonade(modifier: Modifier = Modifier){
 }
 
 @Composable
-fun DiceWithButtonAndImage(modifier: Modifier = Modifier) {
+fun DiceWithButtonAndImage(    onImageClick: () -> Unit,modifier: Modifier = Modifier) {
     var result by remember { mutableStateOf(1) }
     var squeezeCount by remember { mutableStateOf(0) }
 
@@ -92,6 +95,11 @@ fun DiceWithButtonAndImage(modifier: Modifier = Modifier) {
                 modifier = Modifier.fillMaxSize() //Isso garante que os filhos dentro da coluna fiquem centralizados na tela do dispositivo em relação à largura.
 
             ){
+                Button(
+                    onClick = onImageClick,
+                    shape = RoundedCornerShape(40.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.tertiaryContainer)
+                ){
                 Image(
                     painter = painterResource(R.drawable.lemon_tree),
                     contentDescription = result.toString(),
@@ -100,7 +108,7 @@ fun DiceWithButtonAndImage(modifier: Modifier = Modifier) {
                         .clickable {
                             result = 2
                             squeezeCount = (2..4).random()
-                        })
+                        })}
 
                 Spacer(modifier = Modifier.height(32.dp))
                 Text(text = stringResource(R.string.lemon_tree_text))
@@ -114,6 +122,11 @@ fun DiceWithButtonAndImage(modifier: Modifier = Modifier) {
                 modifier = Modifier.fillMaxSize() //Isso garante que os filhos dentro da coluna fiquem centralizados na tela do dispositivo em relação à largura.
 
             ){
+                Button(
+                    onClick = onImageClick,
+                    shape = RoundedCornerShape(40.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.tertiaryContainer)
+                ){
                Image(
                     painter = painterResource(R.drawable.lemon_squeeze),
                     contentDescription = result.toString(),
@@ -124,7 +137,7 @@ fun DiceWithButtonAndImage(modifier: Modifier = Modifier) {
                             if (squeezeCount == 0) {
                                 result = 3
                             }
-                        })
+                        })}
                 Spacer(modifier = Modifier.height(32.dp))
                 Text(text = stringResource(R.string.lemon_text))
 
@@ -137,6 +150,11 @@ fun DiceWithButtonAndImage(modifier: Modifier = Modifier) {
                 modifier = Modifier.fillMaxSize() //Isso garante que os filhos dentro da coluna fiquem centralizados na tela do dispositivo em relação à largura.
 
             ){
+                Button(
+                    onClick = onImageClick,
+                    shape = RoundedCornerShape(40.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.tertiaryContainer)
+                ){
                 Image(
                     painter = painterResource(R.drawable.lemon_drink),
                     contentDescription = result.toString(),
@@ -144,7 +162,7 @@ fun DiceWithButtonAndImage(modifier: Modifier = Modifier) {
                         .wrapContentSize()
                         .clickable {
                             result = 4
-                        })
+                        })}
                 Spacer(modifier = Modifier.height(32.dp))
                 Text(text = stringResource(R.string.lemon_glass_text))
 
@@ -157,6 +175,11 @@ fun DiceWithButtonAndImage(modifier: Modifier = Modifier) {
                 modifier = Modifier.fillMaxSize() //Isso garante que os filhos dentro da coluna fiquem centralizados na tela do dispositivo em relação à largura.
 
             ){
+                Button(
+                    onClick = onImageClick,
+                    shape = RoundedCornerShape(40.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.tertiaryContainer)
+                ){
                 Image(
                     painter = painterResource(R.drawable.lemon_restart),
                     contentDescription = result.toString(),
@@ -164,7 +187,7 @@ fun DiceWithButtonAndImage(modifier: Modifier = Modifier) {
                         .wrapContentSize()
                         .clickable {
                             result = 1
-                        })
+                        })}
                 Spacer(modifier = Modifier.height(32.dp))
                 Text(text = stringResource(R.string.Empty_glass))
 
@@ -176,7 +199,7 @@ fun DiceWithButtonAndImage(modifier: Modifier = Modifier) {
 @Preview
 @Composable
 fun DiceRollerApp() {
-    DiceWithButtonAndImage()
+    DiceWithButtonAndImage({})
 }
 
 /*
